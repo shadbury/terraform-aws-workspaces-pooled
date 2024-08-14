@@ -21,7 +21,7 @@ variable "saml_xml" {
 variable "workspaces_pooled_settings" {
   description = "Configuration settings for WorkSpaces pooled environment."
   type = object({
-    app_settings_persistence = string
+    app_settings_persistence = bool
     bundle_id                = string
     desired_user_sessions    = number
     description              = string
