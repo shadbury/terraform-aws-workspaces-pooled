@@ -8,7 +8,7 @@ resource "aws_cloudformation_stack" "workspaces_pooled" {
         "Properties": {
           "ApplicationSettings": {
             "SettingsGroup": aws_s3_bucket.s3.id,
-            "Status": var.workspaces_pooled_settings.app_settings_persistence
+            "Status": "ENABLED"
           },
           "BundleId": var.workspaces_pooled_settings.bundle_id,
           "Capacity": {

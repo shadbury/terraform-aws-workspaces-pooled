@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "s3" {
 
 resource "aws_s3_bucket_public_access_block" "block" {
 
-  bucket = aws_s3_bucket.s3[0].id
+  bucket = aws_s3_bucket.s3.id
 
   block_public_acls       = true
   block_public_policy     = true
