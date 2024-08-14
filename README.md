@@ -47,7 +47,6 @@ module "workspaces_pooled" {
   saml_xml                  = file("path/to/your/saml_metadata.xml")
   
   workspaces_pooled_settings = {
-    app_settings_persistence = "ENABLED"
     bundle_id                = "wsb-xxxxxx"
     desired_user_sessions    = 2
     description              = "Pooled WorkSpaces"
