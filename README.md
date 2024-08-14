@@ -38,7 +38,8 @@ You need to manually create the WorkSpaces pooled directory. Follow the instruct
 
 ```hcl
 module "workspaces_pooled" {
-  source = "path/to/your/module"
+  source  = "shadbury/workspaces-pooled/aws"
+  version = "x.y.z"
 
   vpc_id                    = "vpc-xxxxxx"
   subnet_ids                = ["subnet-xxxxxx", "subnet-yyyyyy"]
