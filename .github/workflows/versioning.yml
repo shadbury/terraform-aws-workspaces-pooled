@@ -7,7 +7,7 @@ on:
     paths:
       - '**/*.tf'
       - '.github/workflows/versioning.yml'
-      - '.bumpversion.cfg' 
+      - '.bumpversion.cfg'  # Trigger on version file changes
 
 jobs:
   versioning:
@@ -25,10 +25,12 @@ jobs:
 
       # Install bump2version
       - name: Install bump2version
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: pip install bump2version
 
       # Bump the version (e.g., patch) and commit the change
       - name: Bump Version
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
@@ -38,6 +40,7 @@ jobs:
       # Extract the updated version from .bumpversion.cfg
       - name: Extract Version
         id: version
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           VERSION=$(grep "current_version" .bumpversion.cfg | cut -d "=" -f2 | xargs)
           echo "Extracted version: $VERSION"
@@ -46,6 +49,7 @@ jobs:
 
       # Tag the release with the updated version (skip if tag exists)
       - name: Tag Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
