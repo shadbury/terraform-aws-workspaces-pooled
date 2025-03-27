@@ -21,10 +21,10 @@ variable "saml_xml" {
 variable "workspaces_pooled_settings" {
   description = "Configuration settings for WorkSpaces pooled environment."
   type = object({
-    bundle_id                = string
-    desired_user_sessions    = number
-    description              = string
-    pool_name                = string
+    bundle_id             = string
+    desired_user_sessions = number
+    description           = string
+    pool_name             = string
   })
 }
 
@@ -40,13 +40,13 @@ variable "timeout_settings" {
 variable "scaling_settings" {
   description = "Settings for scaling policies."
   type = object({
-    percentage_type          = bool
-    maximum_capacity         = number
-    minimum_capacity         = number
-    increment                = number
-    decrement                = number
-    scale_out_threshold      = number
-    scale_in_threshold       = number
+    percentage_type     = bool
+    maximum_capacity    = number
+    minimum_capacity    = number
+    increment           = number
+    decrement           = number
+    scale_out_threshold = number
+    scale_in_threshold  = number
   })
 }
 
