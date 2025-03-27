@@ -7,18 +7,14 @@ on:
     paths:
       - '**/*.tf'
       - '.github/workflows/versioning.yml'
-      - '.bumpversion.cfg'  # Trigger on version file changes
-  pull_request:
-    branches:
-      - main
-    paths:
-      - '**/*.tf'
-      - '.github/workflows/versioning.yml'
-      - '.bumpversion.cfg'
+      - '.bumpversion.cfg' 
 
 jobs:
   versioning:
     runs-on: ubuntu-latest
+    concurrency:
+      group: versioning-${{ github.ref }}
+      cancel-in-progress: true
 
     steps:
       # Checkout the repository
@@ -29,16 +25,14 @@ jobs:
 
       # Install bump2version
       - name: Install bump2version
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: pip install bump2version
 
       # Bump the version (e.g., patch) and commit the change
       - name: Bump Version
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          bump2version patch --commit  # Increment patch version (e.g., 1.0.0 -> 1.0.1)
+          bump2version patch --commit
           git push origin main
 
       # Extract the updated version from .bumpversion.cfg
@@ -50,11 +44,15 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
         shell: bash
 
-      # Tag the release with the updated version
+      # Tag the release with the updated version (skip if tag exists)
       - name: Tag Release
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
-          git push origin "v${{ steps.version.outputs.version }}"
+          TAG="v${{ steps.version.outputs.version }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping..."
+          else
+            git tag -a "$TAG" -m "Release $TAG"
+            git push origin "$TAG"
+          fi
