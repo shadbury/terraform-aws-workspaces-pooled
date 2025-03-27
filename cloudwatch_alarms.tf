@@ -1,10 +1,10 @@
 locals {
   common_alarms = {
-    evaluation_periods  = 3
-    metric_name         = var.scaling_settings.percentage_type ? "UserSessionsCapacityUtilization" : "AvailableUserSessionCapacity"
-    namespace           = "AWS/WorkSpaces"
-    statistic           = "Average"
-    period              = 120
+    evaluation_periods = 3
+    metric_name        = var.scaling_settings.percentage_type ? "UserSessionsCapacityUtilization" : "AvailableUserSessionCapacity"
+    namespace          = "AWS/WorkSpaces"
+    statistic          = "Average"
+    period             = 120
     dimensions = {
       "WorkSpaces pool ID" = data.aws_cloudformation_stack.workspaces_pooled.outputs["PoolId"]
     }

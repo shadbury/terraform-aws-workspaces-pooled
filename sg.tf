@@ -5,8 +5,8 @@ resource "aws_security_group" "workspace_sg" {
 }
 
 resource "aws_security_group_rule" "workspace_sg_ingress" {
-  count             = length(var.security_group.ingress)
-  
+  count = length(var.security_group.ingress)
+
   type              = "ingress"
   from_port         = var.security_group.ingress[count.index].from_port
   to_port           = var.security_group.ingress[count.index].to_port
@@ -16,8 +16,8 @@ resource "aws_security_group_rule" "workspace_sg_ingress" {
 }
 
 resource "aws_security_group_rule" "workspace_sg_egress" {
-  count             = length(var.security_group.egress)
-  
+  count = length(var.security_group.egress)
+
   type              = "egress"
   from_port         = var.security_group.egress[count.index].from_port
   to_port           = var.security_group.egress[count.index].to_port
